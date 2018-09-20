@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NetFlixent</title>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style2.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/jquery.floating-social-share.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Audiowide|Faster+One|Frijole|Stalinist+One" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../static/js/jquery.floating-social-share.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $(".fa-times").click(function(){
+            $(".sidebar_menu").addClass("hide_menu")
+            $(".toggle_menu").addClass("opacity_one")
+        });
+
+    $(".toggle_menu").click(function(){
+        $(".sidebar_menu").removeClass("hide_menu")
+        $(".toggle_menu").removeClass("opacity_one")
+    });
+
+    $('.preload').fadeOut(1000,function(){
+        $('.content').fadeIn(1000);
+        });
+
+    $('.favo').on("click",function(){
+        $(this).closest("div")
+        .find("img.poster")
+        .clone()
+        .addClass("zoom")
+        .appendTo("body")
+        setTimeout(function(){
+            $(".zoom").remove();
+        }, 2000);
+        $('.favo').text("Added To Favorites");
+    });
+    $(".act").click(function () {
+        $(".act").removeClass("active");
+        // $(".tab").addClass("active"); // instead of this do the below
+        $(this).addClass("active");
+    });
+    $(".share").floatingSocialShare({
+        place: "top-right",
+        counter: true,
+        buttons: ['facebook', 'twitter','google-plus', 'linkedin','pinterest','reddit'],
+        text: "Share with ",
+        title: document.title,
+        url: window.location.href,
+        popup_width: 500,
+        popup_height: 400
+    });
+    let myChart = document.getElementById('mySentiment').getContext('2d');
+    // Global Options
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaul
+FontColor = '#777';
+    let sentiment = []
+    let content;
+    $.get('../static/demo.txt', function(data) {
+        content = data;
+    }, 'text');
+
+    console.log(content);
+    $.each(content,function(v){
+        sentiment.push(v);
+    });
+
+    console.log(sentiment);
+    let massPopChart = new Chart(myChart, {
+      type:'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+        labels:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+        datasets:[{
+          label:'',
+          data:[
+            0,1,0,1,1,0,0,1,1,1,0,1,1,1,1,0,1,1,0,1,1
+          ],
+          backgroundColor:'white',
+          borderWidth:3,
+          borderColor:'green',
+          hoverBorderWidth:3,
+          hoverBorderColor:'white'
+        }]
+      },
+      options:{
+        title:{
+          display:true,
+          text:'Twitter Sentiment Analysis',
+          fontSize:25,
+          fontWeight:600,
+          fontColor: '#000',
+          fontFamily: 'sans-serif'
+        },
+        legend:{
+          display:false,
+          position:'right',
+          labels:{
+            fontColor:'#000'
+          }
+        },
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+      },
+      scaleShowValues: true,
+      scales: {
+          xAxes: [{
+              stacked: false,
+              barPercentage: 0.4,
+          scaleLabel: {
+              display: true,
+              labelString: 'Tweets',
+              fontColor: '#000',
+              fontSize: 30
+          },
+          gridLines:{
+              color: '#000'
+          },
+          ticks:{
+              fontColor: '#000'
+          }
+      }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    stepSize: 1,
+                    fontColor: '#000'
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Sentiment',
+                    fontColor: '#000',
+                    fontSize: 30
+                },
+                gridLines:{
+                    color: '#000'
+                },
+            }]
+        }
+    }
+});
+
+});
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body id ="wrapper">
+    <nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img src="../static/icons/logo3.png" alt="Brand"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="{{ url_for('index')}}"> Home </a></li>
+          <li><a href="{{ url_for('recomendations')}}"> Recomendations</a></li>
+          <li><a href="{{ url_for('in_theatres')}}"> In Theatres </a></li>
+          <li><a href="{{ url_for('upcoming_movies')}}"> Upcoming  </a></li>
+          <li><a href="{{ url_for('recent_dvd')}}"> Latest DVD </a></li>
+          <li><a href="#">Showtimes</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">How it works</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Help</a></li>
+            </ul>
+          </li>
+      </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Favorites <br> <img src="../static/icons/favo.png" alt="fav"></a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Dashboard</a></li>
+              <li><a href="#">Favorites</a></li>
+              <li><a href="#">Recent Searches</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <i class="fa fa-bars toggle_menu"></i>
+    <div class="sidebar_menu">
+    <i class="fa fa-times"></i>
+        <center>
+            <a href="#"><h2 class="boxed-item" > NET <span class="logo_bold" > FLIXENT </span></h2></a>
+        </center>
+        <br/>
+        <a class="user"> Welcome, Rajat </a>
+    <ul class="navigation_selection">
+        <li class="navigation_item"> Home </li>
+        <li class="navigation_item"> Top Movies </li>
+        <li class="navigation_item"> Trending News </li>
+        <li class="navigation_item"> Sentiment </li>
+        <li class="navigation_item"> Recommendations </li>
+        <li class="navigation_item"> About </li>
+        <li class="navigation_item"> Contact Us </li>
+        <li class="navigation_item"> Sign Out </li>
+    </ul>
+</div>
+<div class="preload">
+    <img src="../static/icons/Ripple.gif" alt="loader">
+</div>
+<div id="main" class="content">
+  <div class="container">
+    <div class="jumbotron">
+        <br>
+        <h4 class="watch pull-center"> What Do You want to look for? </h4>
+        <ul class="nav nav-tabs toptog">
+          <li role="presentation" class="act"><a href="{{ url_for('results')}}" class="act">All Results</a></li>
+          <li role="presentation" class="act"><a href="{{ url_for('rating')}}" class="act">Rating Only</a></li>
+          <li role="presentation" class="act active"><a href="{{ url_for('sentiment')}}" class="act">Twitter Sentiment</a></li>
+          <li role="presentation" class="act"><a href="{{ url_for('articles_news')}}" class="act">News & Articles</a></li>
+          <li role="presentation" class="act"><a href="{{ url_for('velocity')}}" class="act">Velocity</a></li>
+          <li role="presentation" class="act"><a href="{{url_for('streaming')}}" class="act">Streaming</a></li>
+        </ul>
+        <h4 class="text-center">Results of your search  <button type="button" class="btn btn-danger pull-right favo"> Add to Favorites <span class="glyphicon glyphicon-heart"></span> </button></h4>
+        <div class="row">
+            <p class="para">You searched for "{{name}}"</p>
+        <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <a href="{{ poster_ref }}" title="{{title}} Poster"><img class="poster" src="{{ poster }}" alt="poster image"></a>
+       <div class="caption">
+
+      <h2>{{ title }} Poster</h2>
+      <p><a href="{{ trailer }}" title="Watch Trailer" > <img class="image" src="../static/icons/play.png" alt="PLAY"> </a> </p>
+    </div>
+  </div>
+</div>
+    </div>
+    <h3 class="watch">Twitter Sentiment Analysis</h3>
+    <h4 class="watch">{{title}}</h4>
+    <h5 class="watch">Twitter Tag as keyword Match: {{twitter_tag}}</h5>
+    <br>
+    <div class="white-box">
+        <canvas id="mySentiment"></canvas>
+    </div>
+    <ul class="list-group list">
+        <h3 class="watch"> Tweets </h3>
+        <li class="list-group-item list-group-item-success"> {{tweet}} </li>
+    </ul>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

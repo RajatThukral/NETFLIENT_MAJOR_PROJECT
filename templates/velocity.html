@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NetFlixent</title>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style2.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/jquery.floating-social-share.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Audiowide|Faster+One|Frijole|Stalinist+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Anton|Berkshire+Swash" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../static/js/jquery.floating-social-share.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $(".fa-times").click(function(){
+            $(".sidebar_menu").addClass("hide_menu")
+            $(".toggle_menu").addClass("opacity_one")
+        });
+
+    $(".toggle_menu").click(function(){
+        $(".sidebar_menu").removeClass("hide_menu")
+        $(".toggle_menu").removeClass("opacity_one")
+    });
+
+    $('.preload').fadeOut(1000,function(){
+        $('.content').fadeIn(1000);
+        });
+
+    $('.favo').on("click",function(){
+        $(this).closest("div")
+        .find("img.poster")
+        .clone()
+        .addClass("zoom")
+        .appendTo("body")
+        setTimeout(function(){
+            $(".zoom").remove();
+        }, 2000);
+        $('.favo').text("Added To Favorites");
+    });
+    $(".act").click(function () {
+        $(".act").removeClass("active");
+        // $(".tab").addClass("active"); // instead of this do the below
+        $(this).addClass("active");
+    });
+    $(".share").floatingSocialShare({
+        place: "top-right",
+        counter: true,
+        buttons: ['facebook', 'twitter','google-plus', 'linkedin','pinterest','reddit'],
+        text: "Share with ",
+        title: document.title,
+        url: window.location.href,
+        popup_width: 500,
+        popup_height: 400
+    });
+
+        let myChart = document.getElementById('myChart').getContext('2d');
+        // Global Options
+        Chart.defaults.global.defaultFontFamily = 'Lato';
+        Chart.defaults.global.defaultFontSize = 18;
+        Chart.defaults.global.defaultFontColor = '#777';
+
+        let massPopChart = new Chart(myChart, {
+          type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+          data:{
+            labels:['IMDB', 'Rotten Tomatoes', 'Metacritic', 'Fandango', 'RogerEbert', 'MRQE'],
+            datasets:[{
+              label:'',
+              data:[
+                {{imdb}},
+                {{rt_eq}},
+                {{meta_eq}},
+                {{fand}},
+                {{roger_score}},
+                {{mrq}}
+              ],
+              //backgroundColor:'green',
+              backgroundColor:[
+                '#E9C334',
+                '#6AAE5A',
+                '#343434',
+                '#EE7C3D',
+                '#285867',
+                '#C62626'
+              ],
+              borderWidth:1,
+              borderColor:'#777',
+              hoverBorderWidth:3,
+              hoverBorderColor:'#000'
+            }]
+          },
+          options:{
+            title:{
+              display:true,
+              text:'Movie Equivalent',
+              fontSize:25,
+              fontWeight:600,
+              fontColor: '#000',
+              fontFamily: 'sans-serif'
+            },
+            legend:{
+              display:false,
+              position:'right',
+              labels:{
+                fontColor:'#000'
+              }
+            },
+            layout:{
+              padding:{
+                left:50,
+                right:0,
+                bottom:0,
+                top:0
+              }
+            },
+            tooltips:{
+              enabled:true
+          },
+          scaleShowValues: true,
+          scales: {
+              xAxes: [{
+                  stacked: false,
+                  barPercentage: 0.4,
+              scaleLabel: {
+                  display: true,
+                  labelString: 'Websites',
+                  fontColor: 'black',
+                  fontSize: 30
+              },
+              gridLines:{
+                  color: '#000'
+              },
+              ticks:{
+                  fontColor: 'black'
+              }
+          }],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 10,
+                        fontColor: 'black'
+                    },
+                    gridLines:{
+                        color: '#000'
+                    },
+                }]
+            }
+        }
+    });
+});
+    </script>
+    <script async src="https://static.addtoany.com/menu/page.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body id ="wrapper">
+    <nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img src="../static/icons/logo3.png" alt="Brand"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="{{ url_for('index')}}"> Home </a></li>
+          <li><a href="{{ url_for('recomendations')}}"> Filter</a></li>
+          <li><a href="{{ url_for('in_theatres')}}"> In Theatres </a></li>
+          <li><a href="{{ url_for('upcoming_movies')}}"> Upcoming  </a></li>
+          <li><a href="{{ url_for('recent_dvd')}}"> Latest DVD </a></li>
+          <li><a href=" {{ url_for('popular_movies')}}">Popular Movies</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">How it works</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Help</a></li>
+            </ul>
+          </li>
+      </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Favorites <br> <img src="../static/icons/favo.png" alt="fav"></a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Dashboard</a></li>
+              <li><a href="#">Favorites</a></li>
+              <li><a href="#">Recent Searches</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <i class="fa fa-bars toggle_menu"></i>
+    <div class="sidebar_menu">
+    <i class="fa fa-times"></i>
+        <center>
+            <a href="#"><h2 class="boxed-item" > NET <span class="logo_bold" > FLIXENT </span></h2></a>
+        </center>
+        <br/>
+        <a class="user"> Welcome, Rajat </a>
+    <ul class="navigation_selection">
+        <li class="navigation_item"> Home </li>
+        <li class="navigation_item"> Top Movies </li>
+        <li class="navigation_item"> Trending News </li>
+        <li class="navigation_item"> Sentiment </li>
+        <li class="navigation_item"> Recommendations </li>
+        <li class="navigation_item"> About </li>
+        <li class="navigation_item"> Contact Us </li>
+        <li class="navigation_item" onclick=location.href="{{ url_for('user.logout')}}"> Sign Out </li>
+    </ul>
+</div>
+<div class="share"></div>
+<div class="preload">
+    <img src="../static/icons/Ripple.gif" alt="loader">
+</div>
+<div id="main" class="content">
+  <div class="container">
+    <div class="jumbotron">
+        <br>
+        <h4 class="watch pull-center"> What Do You want to look for? </h4>
+        <ul class="nav nav-tabs toptog">
+          <li role="presentation" class="act"><a href="{{ url_for('results')}}" class="act">All Results</a></li>
+          <li role="presentation" class="act"><a href="{{ url_for('rating')}}" class="act">Rating Only</a></li>
+          <li role="presentation" class="act"><a href="{{ url_for('sentiment')}}" class="act">Twitter Sentiment</a></li>
+          <li role="presentation" class="act"><a href="{{ url_for('articles_news')}}" class="act">News & Articles</a></li>
+          <li role="presentation" class="act active"><a href="{{ url_for('velocity')}}" class="act">Velocity</a></li>
+          <li role="presentation" class="act"><a href="{{url_for('streaming')}}" class="act">Streaming</a></li>
+        </ul>
+        <h4 class="text-center">Results of your search  <button type="button" class="btn btn-danger pull-right favo"> Add to Favorites <i class="fa fa-heart" aria-hidden="true"></i> </button></h4>
+        <div class="row">
+            <p class="para">You searched for "{{name}}"</p>
+        <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <a href="{{ poster_ref }}" title="{{title}} Poster"><img class="poster" src="{{ poster }}" alt="poster image"></a>
+       <div class="caption">
+
+      <h2>{{ title }} Poster</h2>
+      <p><a href="{{ trailer }}" title="Watch Trailer" target="_blank"> <img class="image" src="../static/icons/play.png" alt="PLAY"> </a> </p>
+    </div>
+  </div>
+</div>
+    </div>
+    <h4 class="watch">{{title}}</h4>
+        <div class="velocity-score">
+            VELOCITY &nbsp; &nbsp; <span class="score">{{vel}}</span>
+            <br>
+            <div class="progress">
+              <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100" style="width: {{vel}}%">
+                <span class="sr-only">{{vel}}% NetFlixent</span>
+              </div>
+            </div>
+        </div>
+            <br>
+        <div class="white-box">
+            <canvas id="myChart"></canvas>
+        </div>
+    <h3 class="watch">What Is Velocity of a movie?</h3>
+        <p class="velocity">    Velocity of a movie is defined as the Net Cummulative All-inclusive Flick Rating or Score Value From Top websites And Social Media Tweets Sentiment Value.
+                Data is Extracted from Top Movie Review, News, Articles, Blogs, Critics Official Websites like IMDb, Rotten Tomatoes, MRQE, Roger Ebert Official, Metacritic, film.com, Fandango and
+                the Tweets are extracted from Twitter API. Sentiment value of Tweets is evaluated with Machine Learning and Algorithms.
+        </p>
+        <p class="velocity">    Velocity of a Movie is Evaluated From a Mathematical Formula That is Developed with Machine Learning Algorithms And Higher-level Mathematics.</p>
+        <p class="velocity">    Velocity of a movie is Scaled on 0-100 Range.</p>
+    <ul class="velocity">
+        Velocity of a movie is dependent on following factors:
+            <li>IMDb Rating</li>
+            <li>IMDb Total Users</li>
+            <li>Tomatometer of Top Critics and All Critics</li>
+            <li>Rotten Tomatoes Audience Score</li>
+            <li>MRQE Metric</li>
+            <li>RogerEbert Review</li>
+            <li>Metacritic Score</li>
+            <li>Usermeta Score</li>
+            <li>Fandango Fans Score</li>
+        </ul>
+        <p class="velocity">
+        Velocity of a movie aims at providing sublime rating for User. Cheers and Enjoy!
+        </p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

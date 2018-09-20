@@ -1,0 +1,439 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>NetFlixent</title>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../static/css/style2.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../static/css/jquery.floating-social-share.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Audiowide|Faster+One|Frijole|Stalinist+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Anton|Berkshire+Swash" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Syncopate" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Paytone+One|Russo+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Gugi" rel="stylesheet">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="../static/js/jquery.floating-social-share.min.js"></script>
+        <script>
+        $(document).ready(function () {
+            $(".fa-times").click(function(){
+                $(".sidebar_menu").addClass("hide_menu")
+                $(".toggle_menu").addClass("opacity_one")
+            });
+
+        $(".toggle_menu").click(function(){
+            $(".sidebar_menu").removeClass("hide_menu")
+            $(".toggle_menu").removeClass("opacity_one")
+        });
+
+        $('.preload').fadeOut(2000,function(){
+            $('.content').fadeIn(2000);
+            });
+
+        $('.favo').on("click",function(){
+            $(this).closest("div")
+            .find("img.poster")
+            .clone()
+            .addClass("zoom")
+            .appendTo("body")
+            setTimeout(function(){
+                $(".zoom").remove();
+            }, 2000);
+            $('.favo').text("Added To Favorites");
+        });
+        $(".act").click(function () {
+            $(".act").removeClass("active");
+            // $(".tab").addClass("active"); // instead of this do the below
+            $(this).addClass("active");
+        });
+        $(".share").floatingSocialShare({
+            place: "top-right",
+            counter: true,
+            buttons: ['facebook', 'twitter','google-plus', 'linkedin','pinterest','reddit'],
+            text: "Share with ",
+            title: document.title,
+            url: window.location.href,
+            popup_width: 500,
+            popup_height: 400
+        });
+
+        $(".update-all").on('click',function () {
+            console.log("CLICKED");
+            $('.update').load('/chart');
+        });
+
+        let myChart = document.getElementById('mySentiment').getContext('2d');
+        // Global Options
+        Chart.defaults.global.defaultFontFamily = 'Lato';
+        Chart.defaults.global.defaultFontSize = 18;
+        Chart.defaults.global.defaul
+    FontColor = '#777';
+
+        var sentiment = new Array();
+        var tit = $('.tag').text();
+        tit = tit
+        .replace("Twitter Tag as keyword Match: ","")
+        .replace("#","");
+
+        console.log(tit);
+            $.get('../static/tsa/'+tit+'.txt', function(data){
+                    sentiment = data.split('|||||');
+                    sentiment.splice(-1,1)
+                    slice_sentiment = sentiment.slice(Math.max(sentiment.length - 20, 1));
+                    slice_sentiment.reverse();
+                    $.each(slice_sentiment,function(index,val){
+                        var i = val.split('||')[0]
+                        if(i == "0"){
+                            var polar = "Negative";
+                            var c = "neg";
+                            var d = "neg-border"
+                        }else {
+                            var polar = "Positive";
+                            var c = "pos";
+                            var d = "pos-border";
+                        }
+                        $('.tweets').append(`
+                            <div class="card ${d}">
+                              <div class="card-header ${c}">
+                                &nbsp;${polar}
+                              </div>
+                              <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                  <p class="twitter-tweet"><img src="${val.split('||')[4]}" alt="" />&nbsp;${val.split('||')[1]}</p>
+                                  <p class="twitter-tweet"><span class="badge badge-pill badge-info">Followers: </span>&nbsp;${val.split('||')[2]}</p>
+                                <p class="twitter-tweet"><span class="badge badge-pill badge-info">AFINN Sentiment Score: </span>&nbsp;${val.split('||')[5]}</p>
+                                <p class="twitter-tweet"><span class="badge badge-pill badge-info">AFINN Comparitive: </span>&nbsp;${val.split('||')[10]}</p>
+                                <p class="twitter-tweet"><span class="badge badge-pill badge-info">TextBlob Sentiment: </span>&nbsp;${val.split('||')[6]}</p>
+                                <p class="twitter-tweet"><span class="badge badge-pill badge-info">TextBlob Subjectivity: </span>&nbsp;${val.split('||')[7]}</p>
+                                <p class="twitter-tweet"><span class="badge badge-pill badge-info">Positive Words: </span>&nbsp;${val.split('||')[8]}</p>
+                                <p class="twitter-tweet"><span class="badge badge-pill badge-info">Negative Words: </span>&nbsp;${val.split('||')[9]}</p>
+                                  <footer class="blockquote-footer twitter-tweet"><cite title="Source Title">&nbsp;${val.split('||')[3]}</cite></footer>
+                                </blockquote>
+                              </div>
+                            </div>`);
+                    })
+                    console.log(slice_sentiment);
+                });
+
+        var sentiment_value = [];
+        var graph_val = [0];
+
+        $.get('../static/tsa/'+tit+'_sentiment.txt',function(res){
+            sentiment_value = res.split('\n');
+            var result=sentiment_value.map(Number);
+            var new_result = result.slice(Math.max(result.length - 21, 1))
+            new_result.splice(-1,1)
+            var i = 0;
+            $.each(new_result,function (ind,value) {
+                if(value==0){
+                    i--;
+                    graph_val.push(i);
+
+                }else if (value==1) {
+                    i++;
+                    graph_val.push(i);
+                }
+            });
+            var acc_result = result.slice(Math.max(result.length - 101, 1));
+            acc_result.splice(-1,1);
+            console.log(acc_result);
+            let counts = 0;
+                for(var i = 0; i <= acc_result.length; i++ ){
+                    if(acc_result[i] == 1){
+                        counts++;
+                    }else{
+                        counts = counts;
+                    }
+                }
+                var acc_counts = counts/acc_result.length;
+
+            var acc = counts+' | '+acc_result.length;
+            var emoticon;
+            var color_e;
+            var feel;
+
+            if(acc_counts > 0.9){
+                emoticon = "../static/icons/very_happy_.png";
+                my_class = "very-happy";
+                feel = "Very Happy and Excited";
+            }else if(acc_counts > 0.7 && acc_counts <= 0.9){
+                emoticon = "../static/icons/happy_.png";
+                my_class = "happy";
+                feel = "Happy";
+            }else if(acc_counts > 0.55 && acc_counts <= 0.7){
+                emoticon = "../static/icons/nuetral_.png";
+                my_class = "nuetral";
+                feel = "OK";
+            }else if(acc_counts > 0.35 && acc_counts <= 0.55){
+                emoticon = "../static/icons/sad_.png";
+                my_class = "sad";
+                feel = "Sad and unhappy";
+            }else if(acc_counts <= 0.35){
+                emoticon = "../static/icons/very_sad_.png";
+                my_class = "very-sad";
+                feel = "Super sad and disappointed";
+            }else{
+                emoticon = "../static/icons/very_sad_.png";
+                my_class = "";
+                feel = "";
+            }
+
+            $('.score').text(acc);
+            $('.synopsis').append(`
+                <div class="sentiment-synopsis">
+                    <h6 class="tsa-box-head badge badge-pill watch2">TSA Consensus</h6>
+                    <p class="${my_class} sentiment-css"> People are feeling ${feel} about this movie on Twitter.
+                    <img src="${emoticon}" alt="" />
+                    </p>
+                </div>
+            `)
+        });
+
+        console.log(graph_val.length);
+        console.log(Object.keys(graph_val));
+
+        var labelss = new Array();
+        var count = 20;
+        for(var i=0; i <=20; i++){
+            labelss.push(i);
+        }
+
+        let massPopChart = new Chart(myChart, {
+          type:'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+          data:{
+            labels: labelss,
+            datasets:[{
+              label:'',
+              data: graph_val,
+              backgroundColor:'white',
+              borderWidth:3,
+              borderColor:'#1DA1F2',
+              hoverBorderWidth:3,
+              hoverBorderColor:'white'
+            }]
+          },
+          options:{
+            title:{
+              display:true,
+              text:'Twitter Sentiment Analysis [TSA]',
+              fontSize:25,
+              fontWeight:600,
+              fontColor: '#000',
+              fontFamily: 'sans-serif'
+            },
+            legend:{
+              display:false,
+              position:'right',
+              labels:{
+                fontColor:'#000'
+              }
+            },
+            layout:{
+              padding:{
+                left:50,
+                right:0,
+                bottom:0,
+                top:0
+              }
+            },
+            tooltips:{
+              enabled:true
+          },
+          scaleShowValues: true,
+          scales: {
+              xAxes: [{
+                  stacked: false,
+                  barPercentage: 0.4,
+              scaleLabel: {
+                  display: true,
+                  labelString: 'Tweets',
+                  fontColor: '#000',
+                  fontSize: 30
+              },
+              gridLines:{
+                  color: '#000'
+              },
+              ticks:{
+                  fontColor: '#000'
+              }
+          }],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1,
+                        fontColor: '#000'
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Sentiment',
+                        fontColor: '#000',
+                        fontSize: 30
+                    },
+                    gridLines:{
+                        color: '#000'
+                    },
+                }]
+            }
+        }
+    });
+
+    });
+        </script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body id ="wrapper">
+        <nav class="navbar navbar-default navbar-inverse">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="../static/icons/logo3.png" alt="Brand"></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a href="{{ url_for('index')}}"> Home </a></li>
+              <li><a href="{{ url_for('recomendations')}}"> Recomendations</a></li>
+              <li><a href="{{ url_for('in_theatres')}}"> In Theatres </a></li>
+              <li><a href="{{ url_for('upcoming_movies')}}"> Upcoming  </a></li>
+              <li><a href="{{ url_for('recent_dvd')}}"> Latest DVD </a></li>
+              <li><a href=" {{ url_for('popular_movies')}}">Popular Movies</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">About</a></li>
+                  <li><a href="#">Contact Us</a></li>
+                  <li><a href="#">How it works</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Help</a></li>
+                </ul>
+              </li>
+          </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#">Favorites <br> <img src="../static/icons/favo.png" alt="fav"></a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Dashboard</a></li>
+                  <li><a href="#">Favorites</a></li>
+                  <li><a href="#">Recent Searches</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Sign Out</a></li>
+                </ul>
+              </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+        <i class="fa fa-bars toggle_menu"></i>
+        <div class="sidebar_menu">
+        <i class="fa fa-times"></i>
+            <center>
+                <a href="#"><h2 class="boxed-item" > NET <span class="logo_bold" > FLIXENT </span></h2></a>
+            </center>
+            <br/>
+            <a class="user"> Welcome, Rajat </a>
+        <ul class="navigation_selection">
+            <li class="navigation_item"> Home </li>
+            <li class="navigation_item"> Top Movies </li>
+            <li class="navigation_item"> Trending News </li>
+            <li class="navigation_item"> Sentiment </li>
+            <li class="navigation_item"> Recommendations </li>
+            <li class="navigation_item"> About </li>
+            <li class="navigation_item"> Contact Us </li>
+            <li class="navigation_item"> Sign Out </li>
+        </ul>
+    </div>
+    <div class="preload">
+        <img src="../static/icons/Ripple.gif" alt="loader">
+    </div>
+    <div id="main" class="content">
+      <div class="container">
+        <div class="jumbotron">
+            <br>
+            <h4 class="watch pull-center"> What Do You want to look for? </h4>
+            <ul class="nav nav-tabs toptog">
+              <li role="presentation" class="act"><a href="{{ url_for('results')}}" class="act">All Results</a></li>
+              <li role="presentation" class="act"><a href="{{ url_for('rating')}}" class="act">Rating Only</a></li>
+              <li role="presentation" class="act active"><a href="{{ url_for('sentiment')}}" class="act">Twitter Sentiment</a></li>
+              <li role="presentation" class="act"><a href="{{ url_for('articles_news')}}" class="act">News & Articles</a></li>
+              <li role="presentation" class="act"><a href="{{ url_for('velocity')}}" class="act">Velocity</a></li>
+              <li role="presentation" class="act"><a href="{{url_for('streaming')}}" class="act">Streaming</a></li>
+            </ul>
+            <h4 class="text-center">Results of your search  <button type="button" class="btn btn-danger pull-right favo"> Add to Favorites <span class="glyphicon glyphicon-heart"></span> </button></h4>
+            <div class="row">
+                <p class="para">You searched for "{{name}}"</p>
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <a href="{{ poster_ref }}" title="{{title}} Poster"><img class="poster" src="{{ poster }}" alt="poster image"></a>
+           <div class="caption">
+
+          <h2>{{ title }} Poster</h2>
+          <p><a href="{{ trailer }}" title="Watch Trailer" > <img class="image" src="../static/icons/play.png" alt="PLAY"> </a> </p>
+        </div>
+      </div>
+    </div>
+        </div>
+        <div style="text-align:center">
+          <h1 class="tsa-head badge badge-pill">Twitter Sentiment Analysis <br> [ TSA ]<br>
+          <span class="dot1"></span>
+          <span class="dot2"></span>
+          <span class="dot3"></span>
+          <span class="dot4"></span>
+          <span class="dot5"></span>
+          </h1>
+        </div>
+        <h4 class="watch2">{{title}}</h4>
+        <h5 class="watch2 tag">Twitter Tag as keyword Match: {{twitter_tag}}</h5>
+        <br>
+
+    <div class="update">
+        <div style="text-align:center">
+                <button type="button" class="btn btn-lg act2 update-all">Update To Latest Graph Tweets and Acceleration</button>
+        </div>
+        <br>
+        <h3 class="watch2 badge badge-pill">TSA Score</h3>
+        <div class="velocity-score">
+            ACCELERATION &nbsp; &nbsp; <span class="score"></span>
+            <br>
+        </div>
+        <br>
+        <br>
+        <div class="synopsis">
+
+        </div>
+        <br>
+        <div>
+                <h3 class="watch2 badge badge-pill">TSA Graph Visualization</h3>
+
+                <br>
+                <div class="white-box">
+                    <canvas id="mySentiment"></canvas>
+                </div>
+            </div>
+        <br>
+        <h3 class="watch2 badge badge-pill">TSA Tweets Classification</h3>
+        <h5 class="watch">Recent Tweets <span class="pull-right"><button type="button" class="btn btn-sm act2">Update Tweets</button></span><br></h5>
+
+        <ul class="list-group list tweets">
+        </ul>
+        <ul class="list-group list tweets">
+        </ul>
+    </div>
+      </div>
+    </div>
+
+
+    </body>
+    </html>

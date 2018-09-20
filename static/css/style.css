@@ -1,0 +1,326 @@
+#wrapper{
+        background-image : url('../../static/icons/background.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+}
+.navbar{
+    background-color: rgb(0, 0, 0, 0.7);
+    height: 120px;
+    opacity: 0.7;
+    border-radius: 0px;
+}
+.navbar-nav li{
+    padding:0px!important;
+}
+.navbar-nav li a{
+    font-size: 12px;
+    font-weight: bold;
+    color: white!important;
+}
+.navbar-nav li a:hover{
+    background-color: black!important;
+    color: #E50914!important;
+    border-bottom: solid 4px #E50914!important;
+}
+.dropdown-menu{
+    background-color: black!important;
+    font-weight: bold;
+    opacity: 0.95!important;
+}
+
+.toggle_menu{
+    position: absolute;
+    padding: 15px 15px 20px 15px;
+    margin-top: 70px;
+    color : white;
+    cursor: pointer;
+    background-color: #E50914;
+    z-index: 1000000;
+    font-size: 2em;
+    opacity: 0.7;
+}
+.toggle_menu:hover{
+    background-color: black;;
+}
+.sidebar_menu{
+    position: absolute;
+    width: 250px;
+    margin-top: 1px;
+    margin-left: 0px;
+    overflow: hidden;
+    height: 100vh;
+    max-height: 100vh;
+    background-color: rgba(17, 15, 17, 0.9);
+    opacity: 0.9;
+    transition: all 0.4s ease-in-out;
+}
+.fa-times{
+    right: 10px;
+    top: 10px;
+    opacity: 0.7;
+    cursor: pointer;
+    position: absolute;
+    color: white;
+    transition: all 0.4s ease-in-out;
+}
+.fa-times:hover{
+    opacity: 1;
+    color: #E50914;
+}
+.boxed-item{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 200;
+    padding: 2px 20px;
+    display: inline-block;
+    border: solid 2px #E50914;
+    box-sizing: border-box;
+    font-size: 20px;
+    color: #E50914;
+    text-align: center;
+    margin-left: 55px
+    margin-top: 70px;
+}
+.logo_bold{
+    font-weight: 800;
+}
+.navigation_selection{
+    margin: 20px 0;
+    display: block;
+    width: 200px;
+    margin-left: 25px;
+    list-style-type: none;
+}
+.navigation_item{
+    font-weight: 200;
+    font-family: 'Open Sans', sans-serif;
+    font-style: bold;
+    padding: 12px 0;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: white;
+    border-bottom: solid 2px #D8D8D8;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+.navigation_item:hover{
+    color: #E50914;
+    border-bottom: 4px solid #E50914;
+}
+.hide_menu{
+    margin-left: -250px;
+}
+.user{
+    padding-left: 80px;
+    font-size: 20px;
+    font-style: italic;
+    color: #D8D8D8;
+}
+.jumbotron{
+    margin-left: 250px;
+    margin-top: 10px;
+    padding-left: 2px;
+    background-color: #191919!important;
+    opacity: 0.8;
+}
+#searchText{
+    -webkit-border-radius:10px;
+	border: 2px solid black;
+	color: black;
+	padding:6px 6px 6px 45px;
+	font-size: 25px;
+	background-image:url('../icons/search.png');
+	background-repeat: no-repeat;
+	background-position: left;
+	}
+.text-center{
+    font-size: 40px;
+    font-style: normal;
+    font-weight: bold;
+    font-family: sans-serif;
+    color: white;
+}
+.list-group{
+    background-color: black;
+    opacity: 0.95;
+}
+.para{
+    color: white;
+    background-color: #E50914;
+}
+#main{
+    padding: 25px;
+    overflow: hidden;
+}
+.footer{
+    background-image: url('../icons/footer2.jpg');
+    background-size:cover;
+    -webkit-box-shadow: rgb(110,110,110) 10px 10px 10px;
+    margin-top: 480px;
+}
+#head_footer{
+    color: #E50914;
+    font-weight: bold;
+}
+#para_footer{
+    color: white;
+}
+.list_head_footer{
+    color: #E50914;
+    font-weight: bold;
+    padding: 20px 20px 20px 20px;
+    text-decoration: underline;
+    font-family: 'Acme', sans-serif;
+    font-size: 30px;
+}
+#list_foot{
+    color: #E50914;
+}
+.item{
+    color: white;
+    font-weight: bold;
+    background-color: inherit;
+}
+.item:hover{
+    color: #E50914;
+    text-decoration: underline;
+    cursor: pointer;
+    background-color: inherit;
+}
+.social-share{
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: -20%;
+}
+.social-share li{
+    list-style:none;
+}
+.social-share li a{
+    width: 80px;
+    height: 80px;
+    background: #fff;
+    text-align: center;
+    line-height: 80px;
+    font-size: 35px;
+    margin: 0 10px;
+    display: block;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid #fff;
+    z-index: 1;
+}
+.velocity{
+    color: white!important;
+}
+.watch{
+    color: #E50914!important;
+}
+.social-share li a .fa{
+    position: relative;
+    color: #262626;
+    transition: .5s;
+    z-index: 2;
+}
+.social-share li a:hover .fa{
+    color: #fff;
+    transform: rotateY(360deg);
+}
+.social-share li a:before{
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    background: #f00;
+    transition: .5s;
+    z-index: 2;
+}
+.social-share li a:hover:before{
+    top: 0;
+}
+.social-share li:nth-child(1) a:before{
+    background: #3b5999;
+}
+.social-share li:nth-child(2) a:before{
+    background: #55acee;
+}
+.social-share li:nth-child(3) a:before{
+    background: #dd4b39;
+}
+.social-share li:nth-child(4) a:before{
+    background: #0077B5;
+}
+.social-share li:nth-child(5) a:before{
+    background: #e4405f;
+}
+.badge{
+    background-color: #FFFC00;
+    color: black;
+}
+.support{
+    background-color: #E50914!important;
+    color: white!important;
+}
+.subscribe{
+    background-color: #E50914!important;
+    color: white!important;
+}
+.subscribe:hover{
+    background-color: black!important;
+}
+.tag{
+    color: white;
+    font-weight: bold;
+}
+.copyright{
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+    color: #a6a6a6;
+    font-weight: bold;
+    font-size: 20px;
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+.superpower{
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+.rights{
+    display: flex;
+    list-style-type: none;
+    font-size: 14px;
+    text-align: center;
+    padding-left: 31%!important;
+}
+.rights-links{
+    color: white;
+}
+.rights-links:hover{
+    color: #E50914;
+    text-shadow: 0px 20px 20px white;
+    cursor: pointer;
+}
+.spaces{
+    color: white;
+}
+hr { border-color: #cccccc; margin: 0; }
+.no-margins { margin: 0px; }
+.with-margins { margin: 10px; }
+.col-centered { float: none; margin: 0 auto; }
+.foot{
+    border-color: white;
+    color: white;
+}
+@import url(https://fonts.googleapis.com/css?family=Droid+Sans);
+.loader {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url('http://www.downgraf.com/wp-content/uploads/2014/09/01-progress.gif?e44397') 50% 50% no-repeat rgb(249,249,249);
+}

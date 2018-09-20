@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NetFlixent</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style2.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/easy-loading/css/easy-loading.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/accordion.min.css">
+    <link rel="stylesheet" href="../static/css/jquery.floating-social-share.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Anton|Berkshire+Swash" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="../static/js/jquery.floating-social-share.min.js"></script>
+    <script src="../static/easy-loading/js/easy-loading.js" charset="utf-8"></script>
+    <script>
+    $(document).ready(function () {
+        $(".fa-times").click(function(){
+            $(".sidebar_menu").addClass("hide_menu")
+            $(".toggle_menu").addClass("opacity_one")
+        });
+
+    $(".toggle_menu").click(function(){
+        $(".sidebar_menu").removeClass("hide_menu")
+        $(".toggle_menu").removeClass("opacity_one")
+        });
+
+    $('.preload').fadeOut(1000,function(){
+        $('.content').fadeIn(1000);
+        });
+
+    $('.favo').on("click",function(){
+        $(this).closest("div")
+        .find("img.poster")
+        .clone()
+        .addClass("zoom")
+        .appendTo("body")
+        setTimeout(function(){
+            $(".zoom").remove();
+        }, 2000);
+        $('.favo').text("Added To Favorites");
+        var fav = $('.poster-title').text();
+    });
+
+    $(".act").click(function () {
+        $(".act").removeClass("active");
+        // $(".tab").addClass("active"); // instead of this do the below
+        $(this).addClass("active");
+    });
+    $(".share").floatingSocialShare({
+            place: "top-right",
+        counter: true,
+        buttons: ['facebook', 'twitter','linkedin','pinterest','google-plus'],
+        text: "Share with ",
+        title: document.title,
+        url: window.location.href,
+
+    });
+    $("#tsa").on('click',function() {
+        EasyLoading.show({
+            type: EasyLoading.TYPE["PACMAN"],
+            timeout: 400000,
+            text: "Glorious things are waiting for you. We're just getting them ready."
+        });
+    },5000);
+    });
+
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/accordion.min.js"></script>
+</head>
+<body id ="wrapper">
+    <nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img src="../static/icons/logo3.png" alt="Brand"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="{{ url_for('index')}}"> Home </a></li>
+          <li><a href="{{ url_for('recomendations')}}"> Filter </a></li>
+          <li><a href="{{ url_for('in_theatres')}}"> In Theatres </a></li>
+          <li><a href="{{ url_for('upcoming_movies')}}"> Upcoming  </a></li>
+          <li><a href="{{ url_for('recent_dvd')}}"> Latest DVD </a></li>
+          <li><a href=" {{ url_for('popular_movies')}}">Popular Movies</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">How it works</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Help</a></li>
+            </ul>
+          </li>
+      </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Favorites <br> <img src="../static/icons/favo.png" alt="fav"></a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Dashboard</a></li>
+              <li><a href="#">Favorites</a></li>
+              <li><a href="#">Recent Searches</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <i class="fa fa-bars toggle_menu"></i>
+    <div class="sidebar_menu">
+    <i class="fa fa-times"></i>
+        <center>
+            <a href="#"><h2 class="boxed-item" > NET <span class="logo_bold" > FLIXENT </span></h2></a>
+        </center>
+        <br/>
+        <a class="user"> Welcome, Rajat </a>
+    <ul class="navigation_selection">
+        <li class="navigation_item"> Home </li>
+        <li class="navigation_item"> Top Movies </li>
+        <li class="navigation_item"> Trending News </li>
+        <li class="navigation_item"> Sentiment </li>
+        <li class="navigation_item"> Recommendations </li>
+        <li class="navigation_item"> About </li>
+        <li class="navigation_item"> Contact Us </li>
+        <li class="navigation_item"> Sign Out </li>
+    </ul>
+</div>
+<div class="share">
+<div class="preload">
+    <img src="../static/icons/Ripple.gif" alt="loader">
+</div>
+<div id="main" class="content">
+  <div class="container">
+    <div class="jumbotron" >
+        <br>
+        <h4 class="watch pull-center"> What Do You want to look for? </h4>
+        <ul class="nav nav-tabs toptog">
+          <li role="presentation" class="act active"><a href="#" class="act">All Results</a></li>
+          <li role="presentation" class="act"><a href="{{ url_for('rating')}}" class="act">Rating Only</a></li>
+          <li role="presentation" class="act"><a href="{{ url_for('sentiment')}}" class="act" id="tsa">Twitter Sentiment</a></li>
+          <li role="presentation" class="act"><a href="{{ url_for('articles_news')}}" class="act">News & Articles</a></li>
+          <li role="presentation" class="act"><a href="{{ url_for('velocity')}}" class="act">Velocity</a></li>
+          <li role="presentation" class="act"><a href="{{url_for('streaming')}}" class="act">Streaming</a></li>
+        </ul>
+        <h4 class="text-center">Results of your search  <button type="button" class="btn btn-danger pull-rigxht favo"> Add to Favorites <span class="glyphicon glyphicon-heart"></span> </button></h4>
+        <div class="row">
+            <p class="para">You searched for "{{name}}"</p>
+
+          <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+              <a href="{{ poster_ref }}" title="{{title}} Poster"><img class="poster" src="{{poster}}" alt="poster image"></a>
+         <div class="caption">
+
+        <h2>{{ title }} Poster</h2>
+        <p><a href="{{trailer}}" title="Watch Trailer" > <img class="image" src="../static/icons/play.png" alt="PLAY"> </a> </p>
+      </div>
+    </div>
+  </div>
+</div>
+        <h3 class="watch">All Results | Data Collection</h3>
+        <ul class="list-group list">
+            <h4 class="imdb"> <span><img class="imdb_logo" src="../static/icons/imdb.png" alt="IMDB"></span> IMDB Data</h4>
+            <li class="list-group-item list-group-item-success list-imdb">Movie Title: {{ title }} </li>
+            <li class="list-group-item list-group-item-success list-imdb">IMDB Rating: {{imdb_rating }}</li>
+            <li class="list-group-item list-group-item-success list-imdb">IMDB Total Users: {{imdb_total_users}} </li>
+            <li class="list-group-item list-group-item-success list-imdb">Release Year: {{release_yr}} </li>
+            <li class="list-group-item list-group-item-success list-imdb">IMDB Storyline:  {{storie}} </li>
+            <li class="list-group-item list-group-item-success list-imdb">Duration: {{duration}}</li>
+            <li class="list-group-item list-group-item-success list-imdb">Director: {{director}}</li>
+            <li class="list-group-item list-group-item-success list-imdb">Writter: {{writer}}</li>
+            <li class="list-group-item list-group-item-success list-imdb">Stars: {{stars}}</li>
+            <li class="list-group-item list-group-item-success list-imdb">Release Date: {{releasedate}}</li>
+            <li class="list-group-item list-group-item-success list-imdb">Genres: {{genres}}</li>
+            <li class="list-group-item list-group-item-success list-imdb">Country: {{countr}}</li>
+            <li class="list-group-item list-group-item-success list-imdb">Language: {{lang}}</li>
+            <li class="list-group-item list-group-item-danger list-imdb">Box Office Details: </li>
+            <li class="list-group-item list-group-item-success list-imdb">Budget: {{budge}}</li>
+            <li class="list-group-item list-group-item-success list-imdb">Opening Week: {{opening_weekend}}</li>
+            <li class="list-group-item list-group-item-success list-imdb">Gross: {{gross_value}}</li>
+        </ul>
+
+            <h4 class="imdb"> <span><img src="../static/icons/tomatoes.png" alt="Rotten Tomatoes"></span> Rotten Tomatoes Data</h4>
+
+        <ul class="list-group list">
+            <li class="list-group-item list-group-item-success list-rt">Critics Consensus: {{ critics_consensus }} </li>
+            <li class="list-group-item list-group-item-info list-rt">Tomatometer All Critics</li>
+            <li class="list-group-item list-group-item-success list-rt">Tomatometer: {{all_tomatometer}}
+                <br>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info rtprogress" role="progressbar" aria-valuenow="{{all_tomatometer}}" aria-valuemin="0" aria-valuemax="100" style="width: {{all_tomatometer}}">
+                    ALL CRITICS
+                  </div>
+                </div>
+            </li>
+            <li class="list-group-item list-group-item-success list-rt">Average Rating: {{avg_rateall}} </li>
+            <li class="list-group-item list-group-item-success list-rt">Reviews Counted:  {{rev_countall}} </li>
+            <li class="list-group-item list-group-item-success list-rt">Fresh: {{freshall}}</li>
+            <li class="list-group-item list-group-item-success list-rt">Rotten: {{rottenall}}</li>
+            <li class="list-group-item list-group-item-info list-rt">Tomatometer Top Critics</li>
+            <li class="list-group-item list-group-item-success list-rt">Tomatometer: {{top_tomameter}}
+                <br>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info rtprogress2" role="progressbar" aria-valuenow="{{top_tomameter}}" aria-valuemin="0" aria-valuemax="100" style="width: {{top_tomameter}}">
+                    TOP CRITICS
+                  </div>
+                </div>
+            </li>
+            <li class="list-group-item list-group-item-success list-rt">Average Rating: {{avg_ratetop}} </li>
+            <li class="list-group-item list-group-item-success list-rt">Reviews Counted:  {{rev_counttop}} </li>
+            <li class="list-group-item list-group-item-success list-rt">Fresh: {{freshtop}}</li>
+            <li class="list-group-item list-group-item-success list-rt">Rotten: {{rottentop}}</li>
+            <li class="list-group-item list-group-item-warning list-rt">Audience Score: {{audiencescore}}</li>
+            <li class="list-group-item list-group-item-warning list-rt">Average Rating: {{useravg}}</li>
+            <li class="list-group-item list-group-item-warning list-rt">User Ratings: {{userrate}}</li>
+            <li class="list-group-item list-group-item-warning list-rt">Studio: {{studio}}</li>
+
+        </ul>
+        <ul class="list-group list">
+            <h4 class="imdb"> <span><img class="imdb_logo" src="../static/icons/roger.png" alt="Roger Ebert"></span> Roger Ebert Review</h4>
+            <li class="list-group-item list-group-item-success list-roger">Movie Title: {{ title }} </li>
+            <li class="list-group-item list-group-item-success list-roger">Movie Rated: {{ movie_rated }} </li>
+            <li class="list-group-item list-group-item-success list-roger"> Roger Ebert Review {{roger_review }}</li>
+            <li class="list-group-item list-group-item-success list-roger">Movie Stars: {{ rating_value }} OUT OF {{best_rating_value}} </li>
+            <li class="list-group-item list-group-item-success list-roger">{{author_name}} | {{published_date}}  </li>
+        </ul>
+        <ul class="list-group list">
+            <h4 class="imdb"> <span><img class="imdb_logo" src="../static/icons/metacritic.png" alt="IMDB"></span> METACRITIC Data</h4>
+            <li class="list-group-item list-group-item-success list-meta">Movie Title: {{ title }} </li>
+            <li class="list-group-item list-group-item-success list-meta">METASCORE: {{metacriticscore }} based on {{tot_meta}} critics</li>
+            <li class="list-group-item list-group-item-success list-meta">POSITIVE: {{pos_meta}} </li>
+            <li class="list-group-item list-group-item-success list-meta">MIXED: {{mix_meta}} </li>
+            <li class="list-group-item list-group-item-success list-meta">NEGATIVE:  {{neg_meta}} </li>
+            <li class="list-group-item list-group-item-success list-meta">USERSCORE: {{usermetascore}} based on {{tot_user}} ratings</li>
+            <li class="list-group-item list-group-item-success list-meta">POSITIVE: {{pos_user}}</li>
+            <li class="list-group-item list-group-item-success list-meta">MIXED: {{mix_user}}</li>
+            <li class="list-group-item list-group-item-success list-meta">NEGATIVE: {{neg_user}}</li>
+            <li class="list-group-item list-group-item-success list-meta">Genres: {{genres}}</li>
+        </ul>
+        <ul class="list-group list">
+            <h4 class="imdb"> <span><img class="imdb_logo" src="../static/icons/fandango.gif" alt="FANDANGO"></span> FANDANGO Data</h4>
+            <li class="list-group-item list-group-item-success list-fand">Movie Title: {{ title }} </li>
+            <li class="list-group-item list-group-item-success list-fand">Fandango Fans Say: {{ fandango_score }} </li>
+            <li class="list-group-item list-group-item-success list-fand">{{fandango_fans}} </li>
+        </ul>
+        <ul class="list-group list">
+            <h4 class="imdb"> <span><img class="imdb_logo" src="../static/icons/MRQE.png" alt="IMDB"></span> MRQE Data</h4>
+            <li class="list-group-item list-group-item-success list-mrqe">Movie Title: {{ title }} </li>
+            <li class="list-group-item list-group-item-success list-mrqe">Movie Full Cast: {{ full_cast }} </li>
+            <li class="list-group-item list-group-item-success list-mrqe">Movie Synopsis: {{movie_synopsis }}</li>
+            <li class="list-group-item list-group-item-success list-mrqe">Movie Rated as: {{mrqe_rated}} </li>
+            <li class="list-group-item list-group-item-success list-mrqe">MRQE Score: {{ score }} </li>
+            <li class="list-group-item list-group-item-success list-mrqe">MRQE METRIC & RATING: </li>
+        </ul>
+        <br>
+            <div>
+                <div class="mrqes">
+                    <figure>
+                    <img class="alt" src="{{ user_rating_src }}" alt="User Rating NA">
+                    <figcaption>User Rating. See About section below for reference.</figcaption>
+                    <br>
+                    <br>
+                    <img class="alt" src="{{ critic_rating_src }}" alt="Critics Rating NA">
+                    <figcaption>Critic Rating. See About section below for reference.</figcaption>
+                </figure>
+                </div>
+                <h3 class="mrqe">About the MRQE Metric & Critics’ Graph</h3>
+                <p class="abt">
+                    Accumulating reviews from the greatest number of critics on print and the web, the MRQE Metric compiles the voice of critical opinion and presents a definitive number for each film. The number, listed between 0-100, is based on an average of these reviews, with the five categories of A-F. Unlike a grading scale, the letters convert to numbers as follows: A = 100; B = 75; C = 50; D = 25; F = 0.
+                </p>
+                <p class="abt">
+                    Generally, films that rate above 70 have favorable reviews, films that rate between 70 and 50 have mixed reviews, and films under 50 have poor reviews. The grades are coupled with MRQE's Critics' Graph, which displays the critical consensus for each film. Amassing the most reviews from print and the web, the MRQE Metric and Critics' Graph is the definitive source for aggregated movie reviews.
+                </p>
+            </div>
+
+
+    </div>
+  </div>
+</div>
+</div>
+</body>
+</html>

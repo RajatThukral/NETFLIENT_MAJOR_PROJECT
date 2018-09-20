@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NetFlixent</title>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script>
+    $(document).ready(function () {
+        $(".fa-times").click(function(){
+            $(".sidebar_menu").addClass("hide_menu")
+            $(".toggle_menu").addClass("opacity_one")
+        });
+
+    $(".toggle_menu").click(function(){
+        $(".sidebar_menu").removeClass("hide_menu")
+        $(".toggle_menu").removeClass("opacity_one")
+});
+});
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body id ="wrapper">
+    <nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img src="../static/icons/logo3.png" alt="Brand"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="{{ url_for('index')}}"> Home </a></li>
+          <li><a href="{{ url_for('recomendations')}}"> Recomendations</a></li>
+          <li><a href="{{ url_for('in_theatres')}}"> In Theatres </a></li>
+          <li><a href="{{ url_for('upcoming_movies')}}"> Upcoming  </a></li>
+          <li><a href="{{ url_for('recent_dvd')}}"> Latest DVD </a></li>
+          <li><a href="#">Showtimes</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">How it works</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Help</a></li>
+            </ul>
+          </li>
+      </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Favorites <br> <img src="../static/icons/favo.png" alt="fav"></a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Dashboard</a></li>
+              <li><a href="#">Favorites</a></li>
+              <li><a href="#">Recent Searches</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <i class="fa fa-bars toggle_menu"></i>
+    <div class="sidebar_menu">
+    <i class="fa fa-times"></i>
+        <center>
+            <a href="#"><h2 class="boxed-item" > NET <span class="logo_bold" > FLIXENT </span></h2></a>
+        </center>
+        <br/>
+        <a class="user"> Welcome, Rajat </a>
+    <ul class="navigation_selection">
+        <li class="navigation_item"> Home </li>
+        <li class="navigation_item"> Top Movies </li>
+        <li class="navigation_item"> Trending News </li>
+        <li class="navigation_item"> Sentiment </li>
+        <li class="navigation_item"> Recommendations </li>
+        <li class="navigation_item"> About </li>
+        <li class="navigation_item"> Contact Us </li>
+        <li class="navigation_item"> Sign Out </li>
+    </ul>
+</div>
+<div id="main">
+  <div class="container">
+    <div class="jumbotron">
+        <h3 class="text-center watch">About NetFlixent </h3>
+        <h3 class="watch">What is NetFlixent?</h3>
+        <p class="velocity">NET stands for NET Cummulative Rating</p>
+        <p class="velocity">FLICK is slang term which means MOVIE </p>
+        <p class="velocity">SENT stands for SENTIMENT ANALYSIS</p>
+        <p class="velocity">Together they make NETFLIXENT!!!</p>
+            <p class="velocity">Almost everyone watch movies and check out the description, performance and rating of a movie, across various websites. However these websites have their own biased opinions & limitations described in the report. We took this idea a step further and developed a net cumulative rating from top six websites, free from these biases. Not only this is the major highlight of the project “Sentiment Analysis” wherein we have analyzed the sentiments of tweets of the common people who expressed their opinions on Twitter, regarding how they felt the movie was. We incorporated this in our model, which then generates a dynamic live performance graph on the basis of sentiments mined from the tweets extracted.    </p>
+            <p class="velocity">Netflixent web application is developed using Machine Learning & Algorithms. The web application extract tweets of latest movies and analyze them on the basis of mood and feeling expressed on social media. Twitter Sentiment analysis (TSA),  is done to provide movie enthusiast a better visualization about a movie by providing a general consensus from the sentiment of the latest collected tweets and visualizing the performance using dynamic live graphs with a analysis description of the latest tweets.
+
+</p>
+            <p class="velocity"> The net cumulative rating is done by extracting valuable data from top movie websites namely IMDb, Rotten Tomatoes, Fandango, Metacritic, MRQE and Roger Ebert. This extracted data is analyzed and transformed into knowledge using data mining and mathematics. The knowledge here is net cumulative rating which gives user a true idea regarding the performance of the movie.</p>
+        <p class="velocity">
+            The Information displayed at the user end are title, storyline, trailer, poster image, release year, box office budget, studio, genre, cast &crew, synopsis, critique’s consensus, country, news and articles, paid streaming on Amazon, iTunes and Vudu. The individual ratings are IMDb rating, Rotten Tomatoes Tomatometer, Audience score, metascore, userscore, Fandango Fans score, Roger Ebert’s rating and MRQE metric along with net cumulative rating and Twitter Sentiment Analysis.
+        </p>
+        <ul class="velocity">
+            Velocity of a movie is dependent on following factors:
+                <li>IMDb Rating</li>
+                <li>IMDb Total Users</li>
+                <li>Tomatometer of Top Critics and All Critics</li>
+                <li>Rotten Tomatoes Audience Score</li>
+                <li>MRQE Metric</li>
+                <li>RogerEbert Review</li>
+                <li>Metacritic Score</li>
+                <li>Usermeta Score</li>
+                <li>Fandango Fans Score</li>
+            </ul>
+            <p class="velocity">
+            Velocity of a movie aims at providing sublime rating for User. Cheers and Enjoy!
+            </p>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

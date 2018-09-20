@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NetFlixent</title>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Aladin|Acme|Anton|Orbitron|Zilla+Slab+Highlight|Wendy+One" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/easy-loading/css/easy-loading.css">
+</head>
+<body id ="wrapper">
+    <nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+          <a class="navbar-brand" href="#"><img src="../static/icons/logo3.png" alt="Brand"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="{{ url_for('index')}}"> Home </a></li>
+        <li><a href="{{ url_for('recomendations')}}"> Recomendations</a></li>
+        <li><a href="{{ url_for('in_theatres')}}"> In Theatres </a></li>
+        <li><a href="{{ url_for('upcoming_movies')}}"> Upcoming  </a></li>
+        <li><a href="{{ url_for('recent_dvd')}}"> Latest DVD </a></li>
+        <li><a href="{{ url_for('popular_movies')}}">Popular Movies</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">How it works</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+        </li>
+    </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Favorites <br> <img src="../static/icons/favo.png" alt="fav"></a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Favorites</a></li>
+            <li><a href="#">Recent Searches</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Sign Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <i class="fa fa-bars toggle_menu"></i>
+    <div class="sidebar_menu">
+    <i class="fa fa-times"></i>
+        <center>
+            <a href="#"><h2 class="boxed-item" > NET <span class="logo_bold" > FLIXENT </span></h2></a>
+        </center>
+        <br/>
+        <a class="user"> Welcome, Rajat </a>
+    <ul class="navigation_selection">
+        <li class="navigation_item"> Home </li>
+        <li class="navigation_item"> Top Movies </li>
+        <li class="navigation_item"> Trending News </li>
+        <li class="navigation_item" onclick=location.href="{{ url_for('whatissentiment')}}"> Sentiment </li>
+        <li class="navigation_item"> Recommendations </li>
+        <li class="navigation_item" onclick=location.href="{{ url_for('about')}}"> About </li>
+        <li class="navigation_item" onclick=location.href="{{ url_for('contact')}}"> Contact Us </li>
+        <li class="navigation_item" onclick=location.href="{{ url_for('user.logout')}}"> Sign Out </li>
+    </ul>
+</div>
+<div id="main">
+  <div class="container">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="text-center">Search For Any Movie</h3>
+                <form id="searchForm" method="post" action="/results" enctype="multipart/form-data">
+                    <input type="text" class="form-control" name="movie_name" id="searchText" placeholder="Search Movies">
+                </form>
+                <h6 class="text-center" style="font-size:18px; color:white; font-weight:bold">Press Enter to search</h6>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+<script src="../static/easy-loading/js/easy-loading.js" charset="utf-8"></script>
+<script>
+
+$(document).ready(function () {
+    $(".fa-times").click(function(){
+        $(".sidebar_menu").addClass("hide_menu")
+        $(".toggle_menu").addClass("opacity_one")
+    });
+
+    $(".toggle_menu").click(function(){
+        $(".sidebar_menu").removeClass("hide_menu")
+        $(".toggle_menu").removeClass("opacity_one")
+    });
+    $('#searchText').keypress(function(event){
+	var keycode = (event.keyCode ? event.keyCode : event.which);
+    function someRandom() {
+        var quotes = new Array("Please wait while we are loading the DATA for you","Glorious things are waiting for you. We're just getting them ready.", "You usually have to wait for that which is worth waiting for", "Amazing things come to those who wait", "You look nice today","If you spend your whole life waiting for the storm, you'll never enjoy the sunshine","Don't wait for the perfect moment. Take the moment and make it perfect");
+        randno = quotes[Math.floor( Math.random() * quotes.length )];
+        return randno
+    }
+    randno = "Please wait while we are loading the DATA for you"
+    if(keycode == '13'){
+        EasyLoading.show({
+            type: EasyLoading.TYPE["BALL_PULSE_RISE"],
+            timeout: 3000,
+            text: randno
+        });
+           setInterval(function() {
+               someRandom();
+         console.log(randno);
+        EasyLoading.show({
+            type: EasyLoading.TYPE["BALL_PULSE_RISE"],
+            timeout: 400000,
+            text: randno
+        });
+    },3000);
+    }
+});
+});
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/accordion.min.js"></script>
+
+</body>
+</html>

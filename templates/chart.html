@@ -1,0 +1,241 @@
+<script>
+$(document).ready(function () {
+    $(".fa-times").click(function(){
+        $(".sidebar_menu").addClass("hide_menu")
+        $(".toggle_menu").addClass("opacity_one")
+    });
+
+$(".toggle_menu").click(function(){
+    $(".sidebar_menu").removeClass("hide_menu")
+    $(".toggle_menu").removeClass("opacity_one")
+});
+
+$('.preload').fadeOut(2000,function(){
+    $('.content').fadeIn(2000);
+    });
+
+$('.favo').on("click",function(){
+    $(this).closest("div")
+    .find("img.poster")
+    .clone()
+    .addClass("zoom")
+    .appendTo("body")
+    setTimeout(function(){
+        $(".zoom").remove();
+    }, 2000);
+    $('.favo').text("Added To Favorites");
+});
+$(".act").click(function () {
+    $(".act").removeClass("active");
+    // $(".tab").addClass("active"); // instead of this do the below
+    $(this).addClass("active");
+});
+$(".share").floatingSocialShare({
+    place: "top-right",
+    counter: true,
+    buttons: ['facebook', 'twitter','google-plus', 'linkedin','pinterest','reddit'],
+    text: "Share with ",
+    title: document.title,
+    url: window.location.href,
+    popup_width: 500,
+    popup_height: 400
+});
+
+$(".update-all").on('click',function () {
+    console.log("CLICKED");
+    $('.update').load('/chart');
+});
+
+let myChart = document.getElementById('mySentiment').getContext('2d');
+// Global Options
+Chart.defaults.global.defaultFontFamily = 'Lato';
+Chart.defaults.global.defaultFontSize = 18;
+Chart.defaults.global.defaul
+FontColor = '#777';
+
+var sentiment = new Array();
+var tit = $('.tag').text();
+tit = tit
+.replace("Twitter Tag as keyword Match: ","")
+.replace("#","");
+
+console.log(tit);
+    $.get('../static/tsa/'+tit+'.txt', function(data){
+            sentiment = data.split('|||||');
+            sentiment.splice(-1,1)
+            slice_sentiment = sentiment.slice(Math.max(sentiment.length - 20, 1));
+            slice_sentiment.reverse();
+            $.each(slice_sentiment,function(index,val){
+                var i = val.split('||')[0]
+                if(i == "0"){
+                    var polar = "Negative";
+                    var c = "neg";
+                    var d = "neg-border"
+                }else {
+                    var polar = "Positive";
+                    var c = "pos";
+                    var d = "pos-border";
+                }
+                $('.tweets').append(`
+                    <div class="card ${d}">
+                      <div class="card-header ${c}">
+                        &nbsp;${polar}
+                      </div>
+                      <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                          <p><img src="${val.split('||')[4]}" alt="" />&nbsp;${val.split('||')[1]}</p>
+                          <p><span class="badge badge-pill badge-info">Followers: </span>&nbsp;${val.split('||')[2]}</p>
+                        <p><span class="badge badge-pill badge-info">AFINN Sentiment Score: </span>&nbsp;${val.split('||')[5]}</p>
+                        <p><span class="badge badge-pill badge-info">AFINN Comparitive: </span>&nbsp;${val.split('||')[10]}</p>
+                        <p><span class="badge badge-pill badge-info">TextBlob Sentiment: </span>&nbsp;${val.split('||')[6]}</p>
+                        <p><span class="badge badge-pill badge-info">TextBlob Subjectivity: </span>&nbsp;${val.split('||')[7]}</p>
+                        <p><span class="badge badge-pill badge-info">Positive Words: </span>&nbsp;${val.split('||')[8]}</p>
+                        <p><span class="badge badge-pill badge-info">Negative Words: </span>&nbsp;${val.split('||')[9]}</p>
+                          <footer class="blockquote-footer"><cite title="Source Title">&nbsp;${val.split('||')[3]}</cite></footer>
+                        </blockquote>
+                      </div>
+                    </div>`);
+            })
+            console.log(slice_sentiment);
+        });
+
+var sentiment_value = [];
+var graph_val = [0];
+
+$.get('../static/tsa/'+tit+'_sentiment.txt',function(res){
+    sentiment_value = res.split('\n');
+    var result=sentiment_value.map(Number);
+    var new_result = result.slice(Math.max(result.length - 21, 1))
+    new_result.splice(-1,1)
+    var i = 0;
+    $.each(new_result,function (ind,value) {
+        if(value==0){
+            i--;
+            graph_val.push(i);
+
+        }else if (value==1) {
+            i++;
+            graph_val.push(i);
+        }
+    });
+    var acc_result = result.slice(Math.max(result.length - 101, 1));
+    acc_result.splice(-1,1);
+    console.log(acc_result);
+    let counts = 0;
+        for(var i = 0; i <= acc_result.length; i++ ){
+            if(acc_result[i] == 1){
+                counts++;
+            }else{
+                counts = counts;
+            }
+        }
+        var acc = counts+' | '+acc_result.length;
+        $('.score').text(acc);
+});
+
+console.log(graph_val.length);
+console.log(Object.keys(graph_val));
+
+var labelss = new Array();
+var count = 20;
+for(var i=0; i <=20; i++){
+    labelss.push(i);
+}
+
+let massPopChart = new Chart(myChart, {
+  type:'line', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+  data:{
+    labels: labelss,
+    datasets:[{
+      label:'',
+      data: graph_val,
+      backgroundColor:'white',
+      borderWidth:3,
+      borderColor:'green',
+      hoverBorderWidth:3,
+      hoverBorderColor:'white'
+    }]
+  },
+  options:{
+    title:{
+      display:true,
+      text:'Twitter Sentiment Analysis [TSA]',
+      fontSize:25,
+      fontWeight:600,
+      fontColor: '#000',
+      fontFamily: 'sans-serif'
+    },
+    legend:{
+      display:false,
+      position:'right',
+      labels:{
+        fontColor:'#000'
+      }
+    },
+    layout:{
+      padding:{
+        left:50,
+        right:0,
+        bottom:0,
+        top:0
+      }
+    },
+    tooltips:{
+      enabled:true
+  },
+  scaleShowValues: true,
+  scales: {
+      xAxes: [{
+          stacked: false,
+          barPercentage: 0.4,
+      scaleLabel: {
+          display: true,
+          labelString: 'Tweets',
+          fontColor: '#000',
+          fontSize: 30
+      },
+      gridLines:{
+          color: '#000'
+      },
+      ticks:{
+          fontColor: '#000'
+      }
+  }],
+        yAxes: [{
+            ticks: {
+                beginAtZero: true,
+                stepSize: 1,
+                fontColor: '#000'
+            },
+            scaleLabel: {
+                display: true,
+                labelString: 'Sentiment',
+                fontColor: '#000',
+                fontSize: 30
+            },
+            gridLines:{
+                color: '#000'
+            },
+        }]
+    }
+}
+});
+
+});
+</script>
+<div class="velocity-score">
+    ACCELERATION &nbsp; &nbsp; <span class="score"></span>
+    <br>
+</div>
+<br>
+<div class="white-box">
+<div class="text-center">
+    <button type="button" class="btn btn-lg act update-all">Update To Latest Graph Tweets and Acceleration</button>
+</div>
+    <canvas id="mySentiment"></canvas>
+    </div>
+    <br><br>
+    <h5 class="watch">Recent Tweets <span class="pull-right"><button type="button" class="btn btn-sm act">Update Tweets</button></span><br></h5>
+
+<ul class="list-group list tweets">
+</ul>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NetFlixent</title>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $(".fa-times").click(function(){
+            $(".sidebar_menu").addClass("hide_menu")
+            $(".toggle_menu").addClass("opacity_one")
+        });
+
+    $(".toggle_menu").click(function(){
+        $(".sidebar_menu").removeClass("hide_menu")
+        $(".toggle_menu").removeClass("opacity_one")
+});
+    $(".share").floatingSocialShare({
+        place: "top-right",
+        counter: true,
+        buttons: ['facebook', 'twitter','google-plus', 'linkedin','pinterest','reddit'],
+        text: "Share with ",
+        title: document.title,
+        url: window.location.href,
+        popup_width: 500,
+        popup_height: 400
+    });
+});
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body id ="wrapper">
+    <nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img src="../static/icons/logo3.png" alt="Brand"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="{{ url_for('index')}}"> Home </a></li>
+          <li><a href="{{ url_for('recomendations')}}"> Recomendations</a></li>
+          <li><a href="{{ url_for('in_theatres')}}"> In Theatres </a></li>
+          <li><a href="{{ url_for('upcoming_movies')}}"> Upcoming  </a></li>
+          <li><a href="{{ url_for('recent_dvd')}}"> Latest DVD </a></li>
+          <li><a href="#">Showtimes</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">How it works</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Help</a></li>
+            </ul>
+          </li>
+      </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Favorites <br> <img src="../static/icons/favo.png" alt="fav"></a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Dashboard</a></li>
+              <li><a href="#">Favorites</a></li>
+              <li><a href="#">Recent Searches</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <i class="fa fa-bars toggle_menu"></i>
+    <div class="sidebar_menu">
+    <i class="fa fa-times"></i>
+        <center>
+            <a href="#"><h2 class="boxed-item" > NET <span class="logo_bold" > FLIXENT </span></h2></a>
+        </center>
+        <br>
+        <a class="user"> Welcome, Rajat </a>
+    <ul class="navigation_selection">
+        <br><br>
+        <li class="navigation_item"> Home </li>
+        <li class="navigation_item"> Top Movies </li>
+        <li class="navigation_item"> Trending News </li>
+        <li class="navigation_item"> Sentiment </li>
+        <li class="navigation_item"> Recommendations </li>
+        <li class="navigation_item"> About </li>
+        <li class="navigation_item"> Contact Us </li>
+        <li class="navigation_item"> Sign Out </li>
+    </ul>
+</div>
+<div id="main">
+  <div class="container">
+    <div class="jumbotron">
+        <h2 class="text-center head">What type of movie you want to watch?</h2>
+        <h4 class="dd"</h4>
+        <form class="red_area">
+            <div class="form-group">
+              <label for="sel1" class="watch"> Select genres from the following list:</label>
+              <br>
+              <select class="form-control" id="sel1">
+                  <option value="">Action</option>
+                  <option value="AL">Adventure</option>
+                  <option value="AK">Animation</option>
+                  <option value="AZ">Biography</option>
+                  <option value="AR">Comedy</option>
+                  <option value="CA">Crime</option>
+                  <option value="CO">Documentary</option>
+                  <option value="CT">Drama</option>
+                  <option value="DE">Family</option>
+                  <option value="DC">Fantasy</option>
+                  <option value="FL">Film-Noir</option>
+                  <option value="GA">Game-Show</option>
+                  <option value="HI">History</option>
+                  <option value="ID">Horror</option>
+                  <option value="IL">Music</option>
+                  <option value="IN">Musical</option>
+                  <option value="IA">Mystery</option>
+                  <option value="KS">News</option>
+                  <option value="KY">Reality-TV</option>
+                  <option value="LA">Romance</option>
+                  <option value="ME">Sci-Fi</option>
+                  <option value="MD">Sport</option>
+                  <option value="MA">Talk-Show</option>
+                  <option value="MI">Thriller</option>
+                  <option value="MN">War</option>
+                  <option value="MS">Western</option>
+            </select>
+            <label for="sel1" class="watch"> Select Release Year from the following list:</label>
+            <br>
+            <select class="form-control" id="sel1">
+                <option value="">2018</option>
+                <option value="AL">2017</option>
+                <option value="AK">2016</option>
+                <option value="AZ">2012</option>
+                <option value="AR">2010</option>
+                <option value="CA">2007</option>
+                <option value="CO">2004</option>
+                <option value="CT">2001</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-default custom btn-block btn-lg">GO!</button>
+    </form>
+  </div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>netflixent</title>
+
+    <!-- Bootstrap -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Aladin|Acme|Anton|Orbitron|Zilla+Slab+Highlight|Wendy+One" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+    <![endif]-->
+  </head>
+<body>
+    {% block body %}
+    <div id="header-div" class="clearfix with-margins">
+        <div class="text-center"><img src="../static/icons/logo3.png" alt="Brand"></div>
+    </div>
+    {% block menu %}
+    {% endblock %}
+
+    <div id="main-div" class="with-margins">
+    {# One-time system messages called Flash messages #}
+    {% block flash_messages %}
+        {%- with messages = get_flashed_messages(with_categories=true) -%}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category=='error' %}
+                        {% set category='danger' %}
+                    {% endif %}
+                    <div class="alert alert-{{category}}">{{ message|safe }}</div>
+                {% endfor %}
+            {% endif %}
+        {%- endwith %}
+    {% endblock %}
+
+    {% block main %}{% block content %}{% endblock %}{% endblock %}
+    </div>
+
+    <br>
+    <br/>
+    <hr class="no-margins"/>
+    <style media="screen">
+        hr { border-color: #cccccc; margin: 0; }
+        .no-margins { margin: 0px; }
+        .with-margins { margin: 10px; }
+        .col-centered { float: none; margin: 0 auto; }
+        body{
+            background-color: black;
+        }
+        .footer{
+            background-image: url('../static/icons/footer2.jpg');
+            background-size:cover;
+            -webkit-box-shadow: rgb(110,110,110) 10px 10px 10px;
+        }
+        #head_footer{
+            color: #E50914;
+            font-weight: bold;
+            font-family: 'Wendy One', sans-serif;
+        }
+        #para_footer{
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 15px;
+        }
+        .list_head_footer{
+            color: #E50914;
+            font-weight: bold;
+            padding: 20px 20px 20px 20px;
+            text-decoration: underline;
+            font-family: 'Acme', sans-serif;
+            font-size: 30px;
+        }
+        #list_foot{
+            color: #E50914;
+        }
+        .item{
+            color: white;
+            font-weight: bold;
+            background-color: inherit;
+        }
+        .item:hover{
+            color: #E50914;
+            text-decoration: underline;
+            cursor: pointer;
+            background-color: inherit;
+        }
+        .social-share{
+            display: flex;
+            position: absolute;
+            top: 100%;
+            left: -20%;
+        }
+        .social-share li{
+            list-style:none;
+        }
+        .social-share li a{
+            width: 80px;
+            height: 80px;
+            background: #fff;
+            text-align: center;
+            line-height: 80px;
+            font-size: 35px;
+            margin: 0 10px;
+            display: block;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #fff;
+            z-index: 1;
+        }
+        .social-share li a .fa{
+            position: relative;
+            color: #262626;
+            transition: .5s;
+            z-index: 2;
+        }
+        .social-share li a:hover .fa{
+            color: #fff;
+            transform: rotateY(360deg);
+        }
+        .social-share li a:before{
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background: #f00;
+            transition: .5s;
+            z-index: 2;
+        }
+        .social-share li a:hover:before{
+            top: 0;
+        }
+        .social-share li:nth-child(1) a:before{
+            background: #3b5999;
+        }
+        .social-share li:nth-child(2) a:before{
+            background: #55acee;
+        }
+        .social-share li:nth-child(3) a:before{
+            background: #dd4b39;
+        }
+        .social-share li:nth-child(4) a:before{
+            background: #0077B5;
+        }
+        .social-share li:nth-child(5) a:before{
+            background: #e4405f;
+        }
+        .badge{
+            background-color: #FFFC00;
+            color: black;
+        }
+        .support{
+            background-color: #E50914!important;
+            color: white!important;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .subscribe{
+            background-color: #E50914!important;
+            color: white!important;
+        }
+        .subscribe:hover{
+            background-color: black!important;
+        }
+        .tag{
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            font-family: 'Acme', sans-serif;
+        }
+        .copyright{
+            border-top: 2px solid white;
+            border-bottom: 2px solid white;
+            color: #a6a6a6;
+            font-weight: bold;
+            font-size: 20px;
+            padding-top: 30px;
+            padding-bottom: 50px;
+            background: transparent;
+        }
+        .superpower{
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .rights{
+            display: flex;
+            list-style-type: none;
+            font-size: 14px;
+            text-align: center;
+            padding-left: 27%!important;
+        }
+        .rights-links{
+            color: white;
+        }
+        .rights-links:hover{
+            color: #E50914;
+            text-shadow: 0px 20px 20px white;
+            cursor: pointer;
+        }
+        .spaces{
+            color: white;
+        }
+        #dummy{
+            top: 160%;
+        }
+        #dummy li:nth-child(1) a:before{
+            background: #FFFC00;
+        }
+        #dummy li:nth-child(2) a:before{
+            background: #25d366;
+        }
+        #dummy li:nth-child(3) a:before{
+            background: #bd081c;
+        }
+        #dummy li:nth-child(4) a:before{
+            background: #b92b27;
+        }
+        #dummy li:nth-child(5) a:before{
+            background: #ff5700;
+        }
+        .input-group-addon{
+            background-color: #E50914;
+        }
+        .fa-envelope{
+            color: black;
+        }
+    </style>
+    <footer class="footer">
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-lg-4" >
+                    <h3 id="head_footer"> Find. Select. Compare Recommend. Watch  Movies Becomes Easy Now with NETFLIXENT!</h3><br/>
+                    <p id="para_footer">Netflixent's free webapp helps you find movie ratings from top websites bringing all-together at one place and
+                        sentiment analysis live-graphing from Social Media. All Free of Cost. Cheers & Enjoy!
+                    </p><br/>
+                    <p class="tag">SIT BACK, RELAX AND ENJOY A NET FLICK !!!</p>
+                    <div style="display:inline-block;">
+                        <h4 style="background-color:black;font-weight:bold;color:#E50914;padding:10px 10px 10px 10px;font-family: 'Wendy One', sans-serif;text-transform:uppercase;" class="text-center">Coming Everywhere Soon! <span class="badge">new</span></a></h4>
+                        <img src="../static/icons/google-play.png" width="150px"/>
+                        <img src="../static/icons/iosapp.png" width="150px"/>
+    				</div>
+
+    			</div>
+    			<div class="col-lg-4">
+    					<h3 class="text-center list_head_footer">NAVIGATE &nbsp; NETFLIXENT</h3>
+    					<ul type="none">
+                            <li onclick=location.href="#" class="item">HOME</a></li>
+    						<li onclick=location.href="#" class="item">ABOUT US</a></li>
+                            <li onclick=location.href="#" class="item">WHAT IS VELOCITY?</li>
+                            <li onclick=location.href="#" class="item">HOW SENTIMENT ANALYSIS IS DONE?</a></li>
+    						<li onclick=location.href="#" class="item">QUESTIONS? CONTACT US</a></li>
+    						<li onclick=location.href="#" class="item">BLOG</a></li>
+                            <li onclick=location.href="#" class="item">HELP</a></li>
+    						<li onclick=location.href="{{ url_for('conditions')}}" class="item">TERMS OF SERVICES</a></li>
+    						<li onclick=location.href="#" class="item">PRIVACY POLICY</a></li>
+    					</ul>
+                        <br>
+                        <br>
+                        <br>
+                        <span class="label label-danger text-center support">Support this Website!</span>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="sizing-addon1"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                             <input type="text" class="form-control" placeholder="Enter Email here">
+                             <span class="input-group-btn">
+                           <button class="btn btn-danger subscribe" type="button">Subscribe</button>
+                         </span>
+                       </div>
+    			</div>
+                <div class="col-lg-4">
+                    <ul class="social-share">
+                        <li><a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a href="https://twitter.com/" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a href="https://plus.google.com/" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                        <li><a href="https://www.linkedin.com/feed/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                        <li><a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li> <br>
+                    </ul>
+                    <br>
+                    <ul class="social-share" id="dummy">
+                        <li><a href="https://www.snapchat.com/" target="_blank"><i class="fa fa-snapchat-ghost" aria-hidden="true"></i></a></li>
+                        <li><a href="https://www.whatsapp.com/" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                        <li><a href="https://www.pinterest.com/" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                        <li><a href="https://www.quora.com/" target="_blank"><i class="fa fa-quora" aria-hidden="true"></i></a></li>
+                        <li><a href="https://www.reddit.com/" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a></li>
+                    </ul>
+                    <br /> <br />
+                    <h3 class="text-center list_head_footer">FOLLOW &nbsp; US &nbsp; ON</h3>
+    		</div>
+    	</div>
+    <br>
+    <hr>
+    <div class="copyright">
+        <p class="text-center">
+            Copyright &copy; 2017 Netflixent Co. Ltd. | All Rights Reserved. <br />
+        </p>
+            <ul class="rights">
+                <li onclick=location.href="#" class="rights-links">About Netflixent</li><span class="spaces"> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+                <li onclick=location.href="#" class="rights-links">Contact </li><span class="spaces">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+                <li onclick=location.href="#" class="rights-links">Advertise </li><span class="spaces">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+                <li onclick=location.href="#" class="rights-links">Privacy Policy </li><span class="spaces">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+                <li onclick=location.href="#" class="rights-links">Terms Of Use </li>
+            </ul>
+        <p class="superpower pull-right">
+            <a href="https://xkcd.com/353/" target="_blank">Programming is a Superpower.&nbsp; <br /> So Don't just learn to CODE, Learn to CREATE. &nbsp; <br /> -&nbsp;Rajat Thukral (Tech Head At Netflixent)&nbsp; &nbsp;
+            </a>
+        </p>
+    </div>
+    </footer>
+    {% endblock %}
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  </body>
+</html>
